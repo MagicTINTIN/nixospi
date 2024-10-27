@@ -1,0 +1,23 @@
+nixu-full() {
+    originalPath=`pwd`
+    cd /etc/nixos
+    nix flake update
+    sudo nixos-rebuild switch --flake .#$(cat /etc/nixos/hostname.conf) --impure
+    home-manager switch --flake .#user@$(cat /etc/nixos/hostname.conf) --impure
+    cd $originalPath
+}
+
+nixu-home() {
+    originalPath=`pwd`
+    cd /etc/nixos
+    home-manager switch --flake .#user@$(cat /etc/nixos/hostname.conf) --impure
+    cd $originalPath
+}
+
+
+nixu-conf() {
+    originalPath=`pwd`
+    cd /etc/nixos
+    sudo nixos-rebuild switch --flake .#$(cat /etc/nixos/hostname.conf) --impure
+    cd $originalPath
+}

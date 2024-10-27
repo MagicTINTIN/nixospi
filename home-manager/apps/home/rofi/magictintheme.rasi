@@ -1,0 +1,105 @@
+/**
+ *
+ * Author : Valentin SERVIERES (MagicTINTIN)
+ * Github : @MagicTINTIN
+ * 
+ * Colors
+ **/
+/* 
+ * {
+    background:     #5F3834AA;
+    background-alt: #3B2928AA;
+    foreground:     #FFFFFFFF;
+    selected:       #DE2510BB;
+    active:         #933D33BB;
+    urgent:         #FF0000BB;
+} */
+
+ * {
+    bg0:     #111111BF;
+    bg1:     #333333BF;
+    fg0:     #ffffff;
+
+    accent-color:     #DE2510FF;
+    urgent-color:     #FFFFFF;
+
+    background-color:   transparent;
+    text-color:         @fg0;
+
+    margin:     0;
+    padding:    0;
+    spacing:    0;
+}
+
+window {
+    location:   center;
+    width:      60%;
+    height: 50%;
+
+    background-color:   @bg0;
+}
+
+inputbar {
+    spacing:    4px; 
+    padding:    4px;
+
+    background-color:   @bg1;
+}
+
+prompt, entry, element-icon, element-text {
+    vertical-align: 0.5;
+}
+
+prompt {
+    text-color: @accent-color;
+}
+
+textbox {
+    padding:            4px;
+    background-color:   @bg1;
+}
+
+listview {
+    padding:    2px 0;
+    lines:      8;
+    columns:    1;
+
+    fixed-height:   false;
+}
+
+element {
+    padding:    4px;
+    spacing:    4px;
+}
+
+element normal normal {
+    text-color: @fg0;
+}
+
+element normal urgent {
+    text-color: @urgent-color;
+}
+
+element normal active {
+    text-color: @accent-color;
+}
+
+element selected {
+    text-color: @bg0;
+}
+
+element selected normal, element selected active {
+    background-color:   @accent-color;
+}
+
+element selected urgent {
+    background-color:   @urgent-color;
+}
+
+element-icon {
+    size:   0.8em;
+}
+
+element-text {
+    text-color: inherit;
+}

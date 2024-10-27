@@ -1,0 +1,171 @@
+#alias algo="cd /home/utilisateur/INSA/2A/Algo/TD/S1"
+insaRep=/home/utilisateur/INSA/2A/
+
+alias ls="ls --color=auto"
+
+export VISUAL="vi"
+
+compilinsa1A(){
+	gnatmake -o "algo1.adb" `/mnt/commetud/1ere\ Annee/ADA/Source/no_unisongtkadaconfig` -largs -no-pie
+}
+
+compilinsa(){
+	gnatmake -o algo1 algo1 -g -cargs -gnatq -gnatQ -bargs -largs
+}
+
+td()
+{
+	if [[ $# == 1 ]]; then
+		cd "${insaRep}$1/TD" 
+	fi
+	if [[ $# == 2 ]]; then
+		cd "${insaRep}$1/TD/S$2/" && clear
+	fi
+}
+cm()
+{
+	cd "${insaRep}$1/CM/" && clear 
+}
+
+eada()
+{
+	nvim "./algo$1.adb"
+}
+cada()
+{
+	clear && gnatmake "./$1.adb"
+}
+mcada()
+{
+	clear && gnatmake "./$1.adb" && "./$1"
+}
+
+
+cada2022()
+{
+	clear && gnatmake -gnat2022 "./$1.adb"
+}
+
+xada ()
+{
+	clear && ./$1
+}
+dada()
+{
+	clear && gnatmake "./$1.adb" && ./$1
+}
+
+nada()
+{
+	#echo pas encore implémenté
+	if [[ -s ./algo$1.adb ]] 
+	then
+  	eada $1
+	else
+  	echo "with Ada.Text_IO; use Ada.Text_IO;
+
+procedure Algo$1 is
+begin
+  null;
+end Algo$1;">./algo$1.adb
+	eada $1
+	fi
+}
+
+mkcd()
+{
+	mkdir -p -- "$1" && cd -P -- "$1"
+}
+
+#algtor()
+#{
+#	cdalgo "$1" && terminator --layout="SimpleCode" --working-directory="${algo}/TD/S$1/"
+#}
+
+no()
+{
+	reverse=""
+	len=${#1}
+	for ((i=$len-1;i>=0;i--))
+	do
+		reverse="$reverse${1:$i:1}"
+	done
+	yes "$reverse"
+}
+
+qes()
+{
+	if (($# < 2))
+	then
+		echo "Donner en arguments quels sont les bornes entre lesquelles compter" && exit 1
+	fi
+}
+
+color()
+{
+	if (($1 == "black"))
+	then
+		tput setaf 0
+	elif (($1 == "red"))
+	then
+		tput setaf 1
+	fi
+}
+alias ls="ls --color"
+
+compteur=0
+cadd()
+{
+	compteur=$(($compteur + 1)) && echo "+1 = $compteur"
+}
+caff()
+{
+	echo "Le compteur est incrémenté à $compteur"
+}
+crst()
+{
+	compteur=0
+}
+compteur()
+(
+	echo "Liste des commandes cadd caff crst"
+)
+
+alias blendergit="/home/utilisateur/blender-git/build_linux/bin/blender"
+
+startbot()
+{
+        TOKEN=$( cat ../tk${PWD##*/} ) && export TOKEN && node index.js
+}
+
+alias cdcode="cd ~/Documents/code/"
+
+alias yo="echo Salut !"
+
+
+alias nordvpn="sudo openfortivpn -u serviere vpn.insa-toulouse.fr:443"
+alias complus='g++ main.cpp -o prog -lSDL2 -ldl'
+
+cglfw()
+{
+	name=$1
+	g++ "$1" -o "${name%.*}" -lglfw -lGL -lm -lX11 -lpthread -lXi -lXrandr -ldl ./glad/src/glad.c -I./glad/include
+}
+
+alias ci="cd ~/INSA/S6/"
+
+cpar()
+{
+	gcc -pthread -Wall $1.c -o $1.o
+}
+
+killAllByName()
+{
+	for p in `ps -ef | grep $1 | grep -v grep | awk '{print $2}'`; do echo "killing $p... using -SIGUSR1"; kill -SIGUSR1 $p; done
+}
+
+forceKillAllByName()
+{
+	for p in `ps -ef | grep $1 | grep -v grep | awk '{print $2}'`; do echo "FORCE killing $p... using -9"; kill -9 $p; done
+}
+#PS1='\e[0;1;91m\u\e[0;38;5;242m|\e[0;2;31m\h\e[0;38;5;242m|\e[0;2;91m\w \e[0;1;91m$\e[0m '
