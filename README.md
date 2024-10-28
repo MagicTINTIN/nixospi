@@ -26,6 +26,7 @@ sudo nixos-rebuild switch --flake .#nixamer
 ```
 
 ```sh
+home-manager switch --flake .#$(cat /etc/nixos/username.conf)@$(cat /etc/nixos/hostname.conf) --impure
 home-manager switch --flake .#user@$(cat /etc/nixos/hostname.conf) --impure
 home-manager switch --flake .#user@$(cat ./nixos/hostname 2>/dev/null || echo nixamer)
 home-manager switch --flake .#user@nixamer

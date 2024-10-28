@@ -3,6 +3,7 @@
 { inputs
 , outputs
 , hostname
+, username
 , debug
 , lib
 , config
@@ -90,8 +91,8 @@ in
 
   # TODO: Set your username
   home = {
-    username = "user";
-    homeDirectory = "/home/user";
+    username = "${username}";
+    homeDirectory = "/home/${username}";
   };
 
   # Add stuff for your user as you see fit:
@@ -195,7 +196,7 @@ in
   programs.git.enable = true;
 
   # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
+  systemd."${username}".startServices = "sd-switch";
 
   # Updating GNOME applications list after update
   home.activation.copyDesktopFiles = lib.hm.dag.entryAfter [ "installPackages" ] ''
