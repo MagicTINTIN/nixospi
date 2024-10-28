@@ -1,8 +1,11 @@
 # TODO
-- [v] set ip addr
-- [v] setup basic apache webserver
-- [ ] only open some ports and add firewall
+- [x] set ip addr
+- [x] setup basic apache webserver
+- [x] use cloudflare to solve ipv6 only
+- [ ] only open some ports and add firewall (ufw limit 22/tcp to prevent brute force)
 - [ ] change username
+- [ ] default login
+- [ ] ipv6 to ipv4 proxy ?
 
 - [ ] activate ssh : 
     - [ ] prevent root login
@@ -15,6 +18,11 @@
     - [ ] discord bot that sends basic logs
 
 - [ ] access via vpn
+- [ ] auth/cas
+- [ ] config apache multi domains
+- [ ] add redundancy
+- [ ] sync servers
+- [ ] sync db
 
 # Ideas
 - [ ] detect forcebrute with utils like fail2ban

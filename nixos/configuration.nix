@@ -167,6 +167,11 @@ in
       }];
     };
 
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 80 443 ];
+    };
+
     defaultGateway =  {
       address = "192.168.22.1";
       interface = "eth0";
@@ -441,14 +446,31 @@ in
   # #   '';
   # # };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  # networking.firewall.allowedTCPPorts = [ 80 443 ];
 
+  # services.httpd.
   services.httpd.enable = true;
-  services.httpd.adminAddr = "post@web.com";
+  services.httpd.adminAddr = "magictintin@proton.me";
   services.httpd.enablePHP = true; # oof... not a great idea in my opinion
 
-  services.httpd.virtualHosts."example.org" = {
+  services.httpd.virtualHosts."ipv6.alcproduxion.com" = {
     documentRoot = "/var/www/web";
+    extraConfig = ''
+      RewriteEngine On
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteCond %{REQUEST_FILENAME} !-d
+      # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+      RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+      # FallbackResource /index.php
+    '';
+    # extraConfig = ''
+    # AllowOverride All  
+    # '';
+    # want ssl + a let's encrypt certificate? add `forceSSL = true;` right here
+  };
+
+  services.httpd.virtualHosts."cpoi.magictintin.fr" = {
+    documentRoot = "/var/www/cpoi";
     extraConfig = ''
       RewriteEngine On
       RewriteCond %{REQUEST_FILENAME} !-f
