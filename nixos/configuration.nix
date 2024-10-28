@@ -159,12 +159,12 @@ in
     #  }];
     #};
     interfaces.eth0 = {
-      useDHCP = true;
+      # useDHCP = true;
       # I used DHCP because sometimes I disconnect the LAN cable
-      #ipv4.addresses = [{
-      #  address = "192.168.100.3";
-      #  prefixLength = 24;
-      #}];
+      ipv4.addresses = [{
+        address = "192.168.22.56";
+        prefixLength = 24;
+      }];
     };
 
     # Enabling WIFI

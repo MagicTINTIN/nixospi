@@ -181,8 +181,8 @@ in
     # web browser
     # firefox #already installed
     # chat
-    discord
-    element-desktop
+    # discord
+    # element-desktop
     # games
     # steam moved to configuration.nix bc home-manager sucks...
     # 2D/3D

@@ -112,7 +112,8 @@
       homeConfigurations = {
         # FIXME replace with your username@hostname 
         "user@${hostname}" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs hostname debug extraArgs addons; };
           modules = [
             # > Our main home-manager configuration file <
