@@ -62,11 +62,19 @@
         # echo $(cat ${hLocalFile} 2>/dev/null || echo nixamer) > $out
         cat ${hLocalFile} > $out
       '';
+      uLocalFile = builtins.path { path = "/etc/nixos/hostname.conf"; };
+      usernameFileContent = pkgs.runCommand "read-file" { inherit uLocalFile; } ''
+        # echo $(cat ${uLocalFile} 2>/dev/null || echo nixamer) > $out
+        cat ${uLocalFile} > $out
+      '';
       debug = "Ok.";
 
       # hostname = builtins.readFile hostnameFileContent;
       hostnameNotTrimmed = builtins.readFile hostnameFileContent;
       hostname = builtins.replaceStrings ["\n"] [""] hostnameNotTrimmed;
+
+      usernameNotTrimmed = builtins.readFile usernameFileContent;
+      username = builtins.replaceStrings ["\n"] [""] usernameNotTrimmed;
 
       extraArgs = { hidpi }: {
         inherit hidpi;
@@ -111,10 +119,10 @@
       # NOTE : moved 
       homeConfigurations = {
         # FIXME replace with your username@hostname 
-        "user@${hostname}" = home-manager.lib.homeManagerConfiguration {
+        "${username}@${hostname}" = home-manager.lib.homeManagerConfiguration {
           # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs hostname debug extraArgs addons; };
+          extraSpecialArgs = { inherit inputs outputs hostname username debug extraArgs addons; };
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/home.nix

@@ -7,6 +7,9 @@ or in [help file](help.md)
 Create a file hostname.conf containing your hostname in the /etc/nixos folder.
 Yup it is an impure nixos, and I don't care... this piece of shit doesn't enable us to have a basic try catch/default value if file doesn't not exist...
 
+> [!WARNING]
+> Think to creaate `hostname.conf` and `username.conf`!
+
 # Main commands
 
 ```sh
