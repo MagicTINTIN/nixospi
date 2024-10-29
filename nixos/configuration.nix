@@ -450,22 +450,22 @@ in
   # networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   # services.httpd.
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "magictintin@proton.me";
-    certs = {
-      "magictintin.fr" = {
-        # webroot = "/var/www/"
-        webroot = "/var/lib/acme/acme-challenge/";
-        extraDomainNames = [ "ipv4.magictintin.fr" "cpoi.magictintin.fr" ];
-      };
-      # "alcproduxion.com" = {
-      #   # webroot = "/var/www/"
-      #   webroot = "/var/lib/acme/acme-challenge/";
-      #   extraDomainNames = [ "ip.alcproduxion.com" "ipv6.alcproduxion.com" ];
-      # };
-    };
-  };
+  # security.acme = {
+  #   acceptTerms = true;
+  #   defaults.email = "magictintin@proton.me";
+  #   certs = {
+  #     "magictintin.fr" = {
+  #       # webroot = "/var/www/"
+  #       webroot = "/var/lib/acme/acme-challenge/";
+  #       extraDomainNames = [ "ipv4.magictintin.fr" "cpoi.magictintin.fr" ];
+  #     };
+  #     # "alcproduxion.com" = {
+  #     #   # webroot = "/var/www/"
+  #     #   webroot = "/var/lib/acme/acme-challenge/";
+  #     #   extraDomainNames = [ "ip.alcproduxion.com" "ipv6.alcproduxion.com" ];
+  #     # };
+  #   };
+  # };
 
   services.httpd = {
     enable = true;
@@ -555,49 +555,53 @@ in
         '';
       };
 
-      "ipv4.magictintin.fr" = {
-        hostName = "ipv4.magictintin.fr";
-        # forceSSL = true;
-        sslServerCert = "/var/lib/acme/ipv4.magictintin.fr/fullchain.pem";
-        sslServerKey = "/var/lib/acme/ipv4.magictintin.fr/key.pem";
-        documentRoot = "/var/www/ipv4.magictintin.fr";
-        listen = [
-          {
-            ip = "*";
-            port = 80;
-          }
-          {
-            ip = "*";
-            port = 443;
-            ssl = true;
-          }
-        ];
-        extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-        '';
-      };
+      # "ipv4.magictintin.fr" = {
+      #   hostName = "ipv4.magictintin.fr";
+      #   # forceSSL = true;
+      #   # sslServerCert = "/var/lib/acme/ipv4.magictintin.fr/fullchain.pem";
+      #   # sslServerKey = "/var/lib/acme/ipv4.magictintin.fr/key.pem";
+      #   sslServerCert = "/home/masterofcats/nope/b";
+      #   sslServerKey = "/home/masterofcats/nope/d";
+      #   documentRoot = "/var/www/ipv4.magictintin.fr";
+      #   listen = [
+      #     {
+      #       ip = "*";
+      #       port = 80;
+      #     }
+      #     {
+      #       ip = "*";
+      #       port = 443;
+      #       ssl = true;
+      #     }
+      #   ];
+      #   extraConfig = ''
+      #     RewriteEngine On
+      #     RewriteCond %{REQUEST_FILENAME} !-f
+      #     RewriteCond %{REQUEST_FILENAME} !-d
+      #     # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+      #     RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+      #     # FallbackResource /index.php
+      #   '';
+      # };
 
       "magictintin.fr" = {
         hostName = "magictintin.fr";
         # forceSSL = true;
-        sslServerCert = "/var/lib/acme/magictintin.fr/fullchain.pem";
-        sslServerKey = "/var/lib/acme/magictintin.fr/key.pem";
+        # sslServerCert = "/var/lib/acme/magictintin.fr/fullchain.pem";
+        # sslServerKey = "/var/lib/acme/magictintin.fr/key.pem";
+        # sslServerCert = "/home/masterofcats/nope/b";
+        # sslServerKey = "/home/masterofcats/nope/d";
         documentRoot = "/var/www/magictintin.fr";
         listen = [
           {
             ip = "*";
             port = 80;
           }
-          {
-            ip = "*";
-            port = 443;
-            ssl = true;
-          }
+          # {
+          #   ip = "*";
+          #   port = 443;
+          #   ssl = true;
+          # }
         ];
         extraConfig = ''
           RewriteEngine On
@@ -609,32 +613,34 @@ in
         '';
       };
 
-      "cpoi.magictintin.fr" = {
-        hostName = "cpoi.magictintin.fr";
-        # forceSSL = true;
-        sslServerCert = "/var/lib/acme/cpoi.magictintin.fr/fullchain.pem";
-        sslServerKey = "/var/lib/acme/cpoi.magictintin.fr/key.pem";
-        documentRoot = "/var/www/cpoi.magictintin.fr";
-        listen = [
-          {
-            ip = "*";
-            port = 80;
-          }
-          {
-            ip = "*";
-            port = 443;
-            ssl = true;
-          }
-        ];
-        extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-        '';
-      };
+      # "cpoi.magictintin.fr" = {
+      #   hostName = "cpoi.magictintin.fr";
+      #   # forceSSL = true;
+      #   # sslServerCert = "/var/lib/acme/cpoi.magictintin.fr/fullchain.pem";
+      #   # sslServerKey = "/var/lib/acme/cpoi.magictintin.fr/key.pem";
+      #   sslServerCert = "/home/masterofcats/nope/b";
+      #   sslServerKey = "/home/masterofcats/nope/d";
+      #   documentRoot = "/var/www/cpoi.magictintin.fr";
+      #   listen = [
+      #     {
+      #       ip = "*";
+      #       port = 80;
+      #     }
+      #     {
+      #       ip = "*";
+      #       port = 443;
+      #       ssl = true;
+      #     }
+      #   ];
+      #   extraConfig = ''
+      #     RewriteEngine On
+      #     RewriteCond %{REQUEST_FILENAME} !-f
+      #     RewriteCond %{REQUEST_FILENAME} !-d
+      #     # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+      #     RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+      #     # FallbackResource /index.php
+      #   '';
+      # };
   };
 
   extraConfig = ''
