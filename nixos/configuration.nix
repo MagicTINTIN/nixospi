@@ -450,43 +450,194 @@ in
   # networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   # services.httpd.
-  services.httpd.enable = true;
-  services.httpd.adminAddr = "magictintin@proton.me";
-  services.httpd.enablePHP = true; # oof... not a great idea in my opinion
-
-  services.httpd.virtualHosts."ipv6.alcproduxion.com" = {
-    documentRoot = "/var/www/web";
-    extraConfig = ''
-      RewriteEngine On
-      RewriteCond %{REQUEST_FILENAME} !-f
-      RewriteCond %{REQUEST_FILENAME} !-d
-      # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-      RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-      # FallbackResource /index.php
-    '';
-    # extraConfig = ''
-    # AllowOverride All  
-    # '';
-    # want ssl + a let's encrypt certificate? add `forceSSL = true;` right here
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "magictintin@proton.me";
+    certs = {
+      "magictintin.fr" = {
+        # webroot = "/var/www/"
+        webroot = "/var/lib/acme/acme-challenge/";
+        extraDomainNames = [ "ipv4.magictintin.fr" "cpoi.magictintin.fr" ];
+      };
+      # "alcproduxion.com" = {
+      #   # webroot = "/var/www/"
+      #   webroot = "/var/lib/acme/acme-challenge/";
+      #   extraDomainNames = [ "ip.alcproduxion.com" "ipv6.alcproduxion.com" ];
+      # };
+    };
   };
 
-  services.httpd.virtualHosts."cpoi.magictintin.fr" = {
-    documentRoot = "/var/www/cpoi";
-    extraConfig = ''
-      RewriteEngine On
-      RewriteCond %{REQUEST_FILENAME} !-f
-      RewriteCond %{REQUEST_FILENAME} !-d
-      # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-      RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-      # FallbackResource /index.php
-    '';
-    # extraConfig = ''
-    # AllowOverride All  
-    # '';
-    # want ssl + a let's encrypt certificate? add `forceSSL = true;` right here
+  services.httpd = {
+    enable = true;
+    adminAddr = "magictintin@proton.me";
+    enablePHP = true; # oof... 
+    # enableSSL = true; # no longer effect
+
+    virtualHosts = {
+    # "event.softplus.fr" = {
+    #   documentRoot = "/var/www/event";
+    #   listen = [
+    #     {
+    #       ip = "*";
+    #       port = 80;
+    #     }
+    #     {
+    #       ip = "*";
+    #       port = 443;
+    #       ssl = true;
+    #     }
+    #   ];
+    #   extraConfig = ''
+    #     RewriteEngine On
+    #     RewriteCond %{REQUEST_FILENAME} !-f
+    #     RewriteCond %{REQUEST_FILENAME} !-d
+    #     # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+    #     RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+    #     # FallbackResource /index.php
+    #   '';
+    #   # extraConfig = ''
+    #   # AllowOverride All  
+    #   # '';
+    #   # want ssl + a let's encrypt certificate? add `forceSSL = true;` right here
+    # };
+
+      "ipv6.alcproduxion.com" = {
+        hostName = "ipv6.alcproduxion.com";
+        # forceSSL = true;
+        # sslServerCert = "/var/lib/acme/ipv6.alcproduxion.com/fullchain.pem";
+        # sslServerKey = "/var/lib/acme/ipv6.alcproduxion.com/key.pem";
+        documentRoot = "/var/www/ipv6.alcproduxion.com";
+        listen = [
+          {
+            ip = "*";
+            port = 80;
+          }
+          # {
+          #   ip = "*";
+          #   port = 443;
+          #   ssl = true;
+          # }
+        ];
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+        '';
+      };
+
+      "ip.alcproduxion.com" = {
+        hostName = "ip.alcproduxion.com";
+        # forceSSL = true;
+        # sslServerCert = "/var/lib/acme/ip.alcproduxion.com/fullchain.pem";
+        # sslServerKey = "/var/lib/acme/ip.alcproduxion.com/key.pem";
+        documentRoot = "/var/www/ip.alcproduxion.com";
+        listen = [
+          {
+            ip = "*";
+            port = 80;
+          }
+          # {
+          #   ip = "*";
+          #   port = 443;
+          #   ssl = true;
+          # }
+        ];
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+        '';
+      };
+
+      "ipv4.magictintin.fr" = {
+        hostName = "ipv4.magictintin.fr";
+        # forceSSL = true;
+        sslServerCert = "/var/lib/acme/ipv4.magictintin.fr/fullchain.pem";
+        sslServerKey = "/var/lib/acme/ipv4.magictintin.fr/key.pem";
+        documentRoot = "/var/www/ipv4.magictintin.fr";
+        listen = [
+          {
+            ip = "*";
+            port = 80;
+          }
+          {
+            ip = "*";
+            port = 443;
+            ssl = true;
+          }
+        ];
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+        '';
+      };
+
+      "magictintin.fr" = {
+        hostName = "magictintin.fr";
+        # forceSSL = true;
+        sslServerCert = "/var/lib/acme/magictintin.fr/fullchain.pem";
+        sslServerKey = "/var/lib/acme/magictintin.fr/key.pem";
+        documentRoot = "/var/www/magictintin.fr";
+        listen = [
+          {
+            ip = "*";
+            port = 80;
+          }
+          {
+            ip = "*";
+            port = 443;
+            ssl = true;
+          }
+        ];
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+        '';
+      };
+
+      "cpoi.magictintin.fr" = {
+        hostName = "cpoi.magictintin.fr";
+        # forceSSL = true;
+        sslServerCert = "/var/lib/acme/cpoi.magictintin.fr/fullchain.pem";
+        sslServerKey = "/var/lib/acme/cpoi.magictintin.fr/key.pem";
+        documentRoot = "/var/www/cpoi.magictintin.fr";
+        listen = [
+          {
+            ip = "*";
+            port = 80;
+          }
+          {
+            ip = "*";
+            port = 443;
+            ssl = true;
+          }
+        ];
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+        '';
+      };
   };
 
-  services.httpd.extraConfig = ''
+  extraConfig = ''
     <Directory "/var/www">
       AllowOverride All
     </Directory>
@@ -494,16 +645,20 @@ in
     <Directory "/var/www/web">
       AllowOverride All
     </Directory>
-  '';
+    '';
+  };
 
   services.mysql.enable = true;
   services.mysql.package = pkgs.mariadb;
 
   # hacky way to create our directory structure and index page... don't actually use this
-  systemd.tmpfiles.rules = [
-    "d /var/www/web"
-    "f /var/www/web/index.php - - - - <?php phpinfo();"
-  ];
+  # systemd.tmpfiles.rules = [
+  #   "d /var/www/web"
+  #   "f /var/www/web/index.php - - - - <?php phpinfo();"
+  #   "d /var/www/web4"
+  #   "f /var/www/web4/index.php - - - - <?php phpinfo();"
+  #   "f /var/www/web4/is4.php - - - - <?php phpinfo();"
+  # ];
 
 
   # services.phpfpm.pools.phpdemo = {
