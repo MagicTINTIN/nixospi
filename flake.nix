@@ -62,7 +62,7 @@
         # echo $(cat ${hLocalFile} 2>/dev/null || echo nixamer) > $out
         cat ${hLocalFile} > $out
       '';
-      uLocalFile = builtins.path { path = "/etc/nixos/hostname.conf"; };
+      uLocalFile = builtins.path { path = "/etc/nixos/username.conf"; };
       usernameFileContent = pkgs.runCommand "read-file" { inherit uLocalFile; } ''
         # echo $(cat ${uLocalFile} 2>/dev/null || echo nixamer) > $out
         cat ${uLocalFile} > $out
@@ -106,7 +106,7 @@
       nixosConfigurations = {
         # FIXME replace with your hostname
         "${hostname}" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs hostname debug extraArgs addons; };
+          specialArgs = { inherit inputs outputs hostname username debug extraArgs addons; };
           modules = [
             # > Our main nixos configuration file <
             ./nixos/configuration.nix

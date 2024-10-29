@@ -196,7 +196,7 @@ in
   programs.git.enable = true;
 
   # Nicely reload system units when changing configs
-  systemd."${username}".startServices = "sd-switch";
+  systemd.user.startServices = "sd-switch";
 
   # Updating GNOME applications list after update
   home.activation.copyDesktopFiles = lib.hm.dag.entryAfter [ "installPackages" ] ''

@@ -3,7 +3,7 @@
 - [x] setup basic apache webserver
 - [x] use cloudflare to solve ipv6 only
 - [ ] only open some ports and add firewall (ufw limit 22/tcp to prevent brute force)
-- [ ] change username
+- [x] change username
 - [ ] default login
 - [ ] ipv6 to ipv4 proxy ?
 
