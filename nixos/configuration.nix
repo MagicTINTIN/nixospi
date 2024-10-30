@@ -449,23 +449,23 @@ in
 
   # networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  # services.httpd.
-  # security.acme = {
-  #   acceptTerms = true;
-  #   defaults.email = "magictintin@proton.me";
-  #   certs = {
-  #     "magictintin.fr" = {
-  #       # webroot = "/var/www/"
-  #       webroot = "/var/lib/acme/acme-challenge/";
-  #       extraDomainNames = [ "ipv4.magictintin.fr" "cpoi.magictintin.fr" ];
-  #     };
-  #     # "alcproduxion.com" = {
-  #     #   # webroot = "/var/www/"
-  #     #   webroot = "/var/lib/acme/acme-challenge/";
-  #     #   extraDomainNames = [ "ip.alcproduxion.com" "ipv6.alcproduxion.com" ];
-  #     # };
-  #   };
-  # };
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "magictintin@proton.me";
+    # certs = {
+    #   "magictintin.fr" = {
+    #     # webroot = "/var/www/"
+    #     webroot = "/var/lib/acme/acme-challenge/";
+    #     # webroot = "/var/www/magictintin.fr/";
+    #     extraDomainNames = [ "ipv4.magictintin.fr" "cpoi.magictintin.fr" ];
+    #   };
+    #   # "alcproduxion.com" = {
+    #   #   # webroot = "/var/www/"
+    #   #   webroot = "/var/lib/acme/acme-challenge/";
+    #   #   extraDomainNames = [ "ip.alcproduxion.com" "ipv6.alcproduxion.com" ];
+    #   # };
+    # };
+  };
 
   services.httpd = {
     enable = true;
@@ -501,59 +501,63 @@ in
     #   # want ssl + a let's encrypt certificate? add `forceSSL = true;` right here
     # };
 
-      "ipv6.alcproduxion.com" = {
-        hostName = "ipv6.alcproduxion.com";
-        # forceSSL = true;
-        # sslServerCert = "/var/lib/acme/ipv6.alcproduxion.com/fullchain.pem";
-        # sslServerKey = "/var/lib/acme/ipv6.alcproduxion.com/key.pem";
-        documentRoot = "/var/www/ipv6.alcproduxion.com";
-        listen = [
-          {
-            ip = "*";
-            port = 80;
-          }
-          # {
-          #   ip = "*";
-          #   port = 443;
-          #   ssl = true;
-          # }
-        ];
-        extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-        '';
-      };
+      # "ipv6.alcproduxion.com" = {
+      #   hostName = "ipv6.alcproduxion.com";
+      #   # forceSSL = true;
+      #   # sslServerCert = "/var/lib/acme/ipv6.alcproduxion.com/fullchain.pem";
+      #   # sslServerKey = "/var/lib/acme/ipv6.alcproduxion.com/key.pem";
+      #   sslServerCert = "/home/masterofcats/nope/a";
+      #   sslServerKey = "/home/masterofcats/nope/c";
+      #   documentRoot = "/var/www/ipv6.alcproduxion.com";
+      #   # listen = [
+      #   #   {
+      #   #     ip = "*";
+      #   #     port = 80;
+      #   #   }
+      #   #   # {
+      #   #   #   ip = "*";
+      #   #   #   port = 443;
+      #   #   #   ssl = true;
+      #   #   # }
+      #   # ];
+      #   extraConfig = ''
+      #     RewriteEngine On
+      #     RewriteCond %{REQUEST_FILENAME} !-f
+      #     RewriteCond %{REQUEST_FILENAME} !-d
+      #     # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+      #     RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+      #     # FallbackResource /index.php
+      #   '';
+      # };
 
-      "ip.alcproduxion.com" = {
-        hostName = "ip.alcproduxion.com";
-        # forceSSL = true;
-        # sslServerCert = "/var/lib/acme/ip.alcproduxion.com/fullchain.pem";
-        # sslServerKey = "/var/lib/acme/ip.alcproduxion.com/key.pem";
-        documentRoot = "/var/www/ip.alcproduxion.com";
-        listen = [
-          {
-            ip = "*";
-            port = 80;
-          }
-          # {
-          #   ip = "*";
-          #   port = 443;
-          #   ssl = true;
-          # }
-        ];
-        extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-        '';
-      };
+      # "ip.alcproduxion.com" = {
+      #   hostName = "ip.alcproduxion.com";
+      #   # forceSSL = true;
+      #   # sslServerCert = "/var/lib/acme/ip.alcproduxion.com/fullchain.pem";
+      #   # sslServerKey = "/var/lib/acme/ip.alcproduxion.com/key.pem";
+      #   sslServerCert = "/home/masterofcats/nope/a";
+      #   sslServerKey = "/home/masterofcats/nope/c";
+      #   documentRoot = "/var/www/ip.alcproduxion.com";
+      #   # listen = [
+      #   #   {
+      #   #     ip = "*";
+      #   #     port = 80;
+      #   #   }
+      #   #   # {
+      #   #   #   ip = "*";
+      #   #   #   port = 443;
+      #   #   #   ssl = true;
+      #   #   # }
+      #   # ];
+      #   extraConfig = ''
+      #     RewriteEngine On
+      #     RewriteCond %{REQUEST_FILENAME} !-f
+      #     RewriteCond %{REQUEST_FILENAME} !-d
+      #     # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+      #     RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+      #     # FallbackResource /index.php
+      #   '';
+      # };
 
       # "ipv4.magictintin.fr" = {
       #   hostName = "ipv4.magictintin.fr";
@@ -563,17 +567,17 @@ in
       #   sslServerCert = "/home/masterofcats/nope/b";
       #   sslServerKey = "/home/masterofcats/nope/d";
       #   documentRoot = "/var/www/ipv4.magictintin.fr";
-      #   listen = [
-      #     {
-      #       ip = "*";
-      #       port = 80;
-      #     }
-      #     {
-      #       ip = "*";
-      #       port = 443;
-      #       ssl = true;
-      #     }
-      #   ];
+      #   # listen = [
+      #   #   {
+      #   #     ip = "*";
+      #   #     port = 80;
+      #   #   }
+      #   #   {
+      #   #     ip = "*";
+      #   #     port = 443;
+      #   #     ssl = true;
+      #   #   }
+      #   # ];
       #   extraConfig = ''
       #     RewriteEngine On
       #     RewriteCond %{REQUEST_FILENAME} !-f
@@ -587,22 +591,27 @@ in
       "magictintin.fr" = {
         hostName = "magictintin.fr";
         # forceSSL = true;
-        # sslServerCert = "/var/lib/acme/magictintin.fr/fullchain.pem";
+        # sslServerCert = "/var/lib/acme/magictintin.fr/cert.pem";
         # sslServerKey = "/var/lib/acme/magictintin.fr/key.pem";
+
+        sslServerCert = "/etc/ssl/private/b";
+        sslServerKey = "/etc/ssl/private/d";
+
         # sslServerCert = "/home/masterofcats/nope/b";
         # sslServerKey = "/home/masterofcats/nope/d";
+        addSSL = true;
         documentRoot = "/var/www/magictintin.fr";
-        listen = [
-          {
-            ip = "*";
-            port = 80;
-          }
-          # {
-          #   ip = "*";
-          #   port = 443;
-          #   ssl = true;
-          # }
-        ];
+        # listen = [
+        #   {
+        #     ip = "*";
+        #     port = 80;
+        #   }
+        #   {
+        #     ip = "*";
+        #     port = 443;
+        #     ssl = true;
+        #   }
+        # ];
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
@@ -610,7 +619,7 @@ in
           # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
           RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
           # FallbackResource /index.php
-        '';
+        ''; # Alias /.well-known/acme-challenge /var/lib/acme/acme-challenge/
       };
 
       # "cpoi.magictintin.fr" = {
@@ -621,17 +630,17 @@ in
       #   sslServerCert = "/home/masterofcats/nope/b";
       #   sslServerKey = "/home/masterofcats/nope/d";
       #   documentRoot = "/var/www/cpoi.magictintin.fr";
-      #   listen = [
-      #     {
-      #       ip = "*";
-      #       port = 80;
-      #     }
-      #     {
-      #       ip = "*";
-      #       port = 443;
-      #       ssl = true;
-      #     }
-      #   ];
+      #   # listen = [
+      #   #   {
+      #   #     ip = "*";
+      #   #     port = 80;
+      #   #   }
+      #   #   {
+      #   #     ip = "*";
+      #   #     port = 443;
+      #   #     ssl = true;
+      #   #   }
+      #   # ];
       #   extraConfig = ''
       #     RewriteEngine On
       #     RewriteCond %{REQUEST_FILENAME} !-f
