@@ -170,12 +170,19 @@ in
 
     firewall = {
       enable = true;
+      allowPing = true;
       allowedTCPPorts = [ 80 443 ];
     };
 
     defaultGateway =  {
       address = "192.168.22.1";
       interface = "eth0";
+    };
+
+    hosts = {
+      # "127.0.0.1" = [ "localhost" "ip.alcproduxion.com" "ipv6.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" "ipv4.magictintin.fr" ];
+      "127.0.0.1" = [ "localhost" "ip.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" "ipv4.magictintin.fr" ];
+      "::1" = [ "localhost" "ip.alcproduxion.com" "ipv6.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" ];
     };
 
     # Enabling WIFI
@@ -260,14 +267,14 @@ in
   # Some sample service.
   # Use dnsmasq as internal LAN DNS resolver.
   services.dnsmasq = {
-    enable = false;
-    settings.servers = [ "8.8.8.8" "8.8.4.4" "1.1.1.1" ];
-    settings.extraConfig = ''
-      address=/fenrir.test/192.168.100.6
-      address=/recalune.test/192.168.100.7
-      address=/eth.nixpi.test/192.168.100.3
-      address=/wlan.nixpi.test/192.168.100.4
-    '';
+    enable = true;
+    # settings.servers = [ "8.8.8.8" "8.8.4.4" "1.1.1.1" ];
+    # settings.extraConfig = ''
+    #   address=/.alcproduxion.com/127.0.0.1
+    #   address=/.magictintin.fr/127.0.0.1
+    #   address=/magictintin.fr/127.0.0.1
+    # '';
+    settings.address = [ "/.alcproduxion.com/127.0.0.1" "/ipv4.magictintin.fr/127.0.0.1" "/cpoi.magictintin.fr/127.0.0.1" "/magictintin.fr/127.0.0.1" ];
   };
 
   # services.openvpn = {
@@ -528,6 +535,7 @@ in
           # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
           RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
           # FallbackResource /index.php
+          # UseCanonicalName Off
         '';
       };
 
@@ -558,6 +566,7 @@ in
           # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
           RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
           # FallbackResource /index.php
+          # UseCanonicalName Off
         '';
       };
 
@@ -567,8 +576,8 @@ in
         # forceSSL = true;
         # sslServerCert = "/var/lib/acme/ipv4.magictintin.fr/fullchain.pem";
         # sslServerKey = "/var/lib/acme/ipv4.magictintin.fr/key.pem";
-        sslServerCert = "/etc/ssl/private/b";
-        sslServerKey = "/etc/ssl/private/d";
+        sslServerCert = "/etc/ssl/private/ipmtc";
+        sslServerKey = "/etc/ssl/private/ipmtk";
         documentRoot = "/var/www/ipv4.magictintin.fr";
         extraConfig = ''
           RewriteEngine On
@@ -577,17 +586,18 @@ in
           # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
           RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
           # FallbackResource /index.php
+          # UseCanonicalName Off
         '';
       };
 
       "cpoi.magictintin.fr" = {
         hostName = "cpoi.magictintin.fr";
-        serverAliases = [ "cpoi.magictintin.fr" ];
+        serverAliases = [ "cpoi.magictintin.fr" "*.cpoi.magictintin.fr" ];
         # forceSSL = true;
         # sslServerCert = "/var/lib/acme/cpoi.magictintin.fr/fullchain.pem";
         # sslServerKey = "/var/lib/acme/cpoi.magictintin.fr/key.pem";
-        sslServerCert = "/etc/ssl/private/b";
-        sslServerKey = "/etc/ssl/private/d";
+        sslServerCert = "/etc/ssl/private/cpmtc";
+        sslServerKey = "/etc/ssl/private/cpmtk";
         documentRoot = "/var/www/cpoi.magictintin.fr";
         extraConfig = ''
           RewriteEngine On
@@ -596,18 +606,19 @@ in
           # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
           RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
           # FallbackResource /index.php
+          # UseCanonicalName Off
         '';
       };
 
       "magictintin.fr" = {
         hostName = "magictintin.fr";
-        serverAliases = [ "*.magictintin.fr" ];
+        serverAliases = [ "magictintin.fr" ];
         # forceSSL = true;
         # sslServerCert = "/var/lib/acme/magictintin.fr/cert.pem";
         # sslServerKey = "/var/lib/acme/magictintin.fr/key.pem";
 
-        sslServerCert = "/etc/ssl/private/b";
-        sslServerKey = "/etc/ssl/private/d";
+        sslServerCert = "/etc/ssl/private/mtc";
+        sslServerKey = "/etc/ssl/private/mtk";
         addSSL = true;
         documentRoot = "/var/www/magictintin.fr";
         extraConfig = ''
@@ -617,6 +628,7 @@ in
           # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
           RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
           # FallbackResource /index.php
+          # UseCanonicalName Off
         '';
       };
   };
