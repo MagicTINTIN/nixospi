@@ -168,6 +168,7 @@ in
     pasystray
     # rofi
     rofi-calc
+    lm_sensors
     acpi
     sysstat
     lxappearance
