@@ -147,6 +147,13 @@ in
     enableRedistributableFirmware = true;
     firmware = [ pkgs.wireless-regdb ];
   };
+
+  services.getty.autologinUser = username;
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = username;
+  };
+
   # Networking
   networking = {
     networkmanager.enable = true;
@@ -179,11 +186,11 @@ in
       interface = "eth0";
     };
 
-    hosts = {
-      # "127.0.0.1" = [ "localhost" "ip.alcproduxion.com" "ipv6.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" "ipv4.magictintin.fr" ];
-      "127.0.0.1" = [ "localhost" "ip.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" "ipv4.magictintin.fr" ];
-      "::1" = [ "localhost" "ip.alcproduxion.com" "ipv6.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" ];
-    };
+    # hosts = {
+    #   # "127.0.0.1" = [ "localhost" "ip.alcproduxion.com" "ipv6.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" "ipv4.magictintin.fr" ];
+    #   "127.0.0.1" = [ "localhost" "ip.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" "ipv4.magictintin.fr" ];
+    #   "::1" = [ "localhost" "ip.alcproduxion.com" "ipv6.alcproduxion.com" "magictintin.fr" "cpoi.magictintin.fr" ];
+    # };
 
     # Enabling WIFI
     #wireless.enable = true;
@@ -274,7 +281,7 @@ in
     #   address=/.magictintin.fr/127.0.0.1
     #   address=/magictintin.fr/127.0.0.1
     # '';
-    settings.address = [ "/.alcproduxion.com/127.0.0.1" "/ipv4.magictintin.fr/127.0.0.1" "/cpoi.magictintin.fr/127.0.0.1" "/magictintin.fr/127.0.0.1" ];
+    settings.address = [ "/.alcproduxion.com/127.0.0.1" "/ipv4.magictintin.fr/127.0.0.1" "/cpoi.magictintin.fr/127.0.0.1" "/magictintin.fr/127.0.0.1" "/0xy.fr/127.0.0.1" "/.0xy.fr/127.0.0.1" ];
   };
 
   # services.openvpn = {
@@ -376,85 +383,7 @@ in
   #   [ inputs.home-manager.packages.${pkgs.system}.default ];
   environment.systemPackages = with pkgs; [
     inputs.home-manager.packages.${pkgs.system}.default
-    # ...
-
-    # support both 32- and 64-bit applications
-    #wineWowPackages.stable
-
-    # support 32-bit only
-    #wine
-
-    # support 64-bit only
-    #(wine.override { wineBuild = "wine64"; })
-
-    # support 64-bit only
-    #wine64
-
-    # wine-staging (version with experimental features)
-    #wineWowPackages.staging
-
-    # winetricks (all versions)
-    #winetricks
-
-    # native wayland support (unstable)
-    #wineWowPackages.waylandFull
   ];
-
-  # docker
-  # virtualisation.docker.enable = true;
-  # virtualisation.docker.daemon.settings = {
-  #   userland-proxy = false;
-  #   experimental = true;
-  #   metrics-addr = "0.0.0.0:9323";
-  #   ipv6 = true;
-  #   fixed-cidr-v6 = "fd00::/80";
-  # };
-
-  # networking.firewall.allowPing = true;
-  # networking.firewall.allowedTCPPorts = [ 80 443 ];
-
-  # services.httpd.enable = true;
-  # services.httpd.adminAddr = "post@web";
-  # services.httpd.enablePHP = true; # oof... not a great idea in my opinion
-
-  # # services.httpd.virtualHosts."example.org" = {
-  # #   documentRoot = "/var/www/web";
-  # #   # want ssl + a let's encrypt certificate? add `forceSSL = true;` right here
-  # # };
-  # services.httpd.virtualHosts."example" = {
-  #   documentRoot = "/var/www/web";
-  #   # want ssl + a let's encrypt certificate? add `forceSSL = true;` right here
-  # };
-
-  # services.mysql.enable = true;
-  # services.mysql.package = pkgs.mariadb;
-
-  # # hacky way to create our directory structure and index page... don't actually use this
-  # systemd.tmpfiles.rules = [
-  #   "d /var/www/web"
-  #   "f /var/www/web/index.php - - - - <?php phpinfo();"
-  # ];
-
-  # # # MariaDB
-  # # services.mysql = {
-  # #   enable = true;
-  # #   package = pkgs.mariadb;
-  # #   extraOptions = ''
-  # #     query_cache_type = 1
-  # #     query_cache_limit = 2M
-  # #     query_cache_size = 4M
-  # #     thread_cache_size = 4
-  # #     innodb_buffer_pool_size = 325M
-  # #     innodb_buffer_pool_instances = 1
-  # #     # smallest value since it's not used
-  # #     aria_pagecache_buffer_size = 128K
-  # #     # values should be equal
-  # #     tmp_table_size = 30M
-  # #     max_heap_table_size = 30M
-  # #   '';
-  # # };
-
-  # networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   security.acme = {
     acceptTerms = true;
@@ -573,7 +502,7 @@ in
 
       "cpoi.magictintin.fr" = {
         hostName = "cpoi.magictintin.fr";
-        serverAliases = [ "cpoi.magictintin.fr" "*.cpoi.magictintin.fr" ];
+        serverAliases = [ "cpoi.magictintin.fr" "www.cpoi.magictintin.fr" ];
         # forceSSL = true;
         # sslServerCert = "/var/lib/acme/cpoi.magictintin.fr/fullchain.pem";
         # sslServerKey = "/var/lib/acme/cpoi.magictintin.fr/key.pem";
@@ -596,7 +525,7 @@ in
 
       "magictintin.fr" = {
         hostName = "magictintin.fr";
-        serverAliases = [ "magictintin.fr" "*.magictintin.fr" ];
+        serverAliases = [ "magictintin.fr" "www.magictintin.fr" ];
         # forceSSL = true;
 
         sslServerCert = "/etc/ssl/private/mtc";
@@ -643,6 +572,22 @@ in
         sslServerKey = "/etc/ssl/private/xyk";
         addSSL = true;
         documentRoot = "/var/www/0xy.fr";
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+          # UseCanonicalName Off
+        '';
+      };
+
+      "localhost" = {
+        hostName = "localhost";
+        serverAliases = [ "localhost" ];
+        # forceSSL = true;
+        documentRoot = "/var/www/default";
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f

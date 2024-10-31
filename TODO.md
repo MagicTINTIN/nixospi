@@ -5,7 +5,7 @@
 - [x] set up origin CA SSL certificates
 - [ ] only open some ports and add firewall (ufw limit 22/tcp to prevent brute force)
 - [x] change username
-- [ ] default login
+- [x] default login
 - [x] ipv6 to ipv4 proxy ?
 
 - [ ] activate ssh : 
