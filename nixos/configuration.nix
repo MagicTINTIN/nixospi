@@ -77,8 +77,6 @@ in
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
 
-  # FIXME: Add the rest of your current configuration
-
   # TODO: Set your hostname
   networking.hostName = hostname; #"nixamer";
 
@@ -147,6 +145,13 @@ in
     enableRedistributableFirmware = true;
     firmware = [ pkgs.wireless-regdb ];
   };
+
+  # services.watchdogd = {
+  #   enable = true;
+  #   device = "/dev/watchdog";
+  # }
+  systemd.watchdog.rebootTime = "10s";
+  systemd.watchdog.runtimeTime = "10s";
 
   services.getty.autologinUser = username;
   services.displayManager.autoLogin = {

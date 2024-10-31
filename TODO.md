@@ -6,6 +6,7 @@
 - [ ] only open some ports and add firewall (ufw limit 22/tcp to prevent brute force)
 - [x] change username
 - [x] default login
+- [x] system watchdog
 - [x] ipv6 to ipv4 proxy ?
 
 - [ ] activate ssh : 
