@@ -517,6 +517,7 @@ in
         sslServerCert = "/etc/ssl/private/a";
         sslServerKey = "/etc/ssl/private/c";
         documentRoot = "/var/www/ipv6.alcproduxion.com";
+        addSSL = true;
         # listen = [
         #   {
         #     ip = "*";
@@ -548,6 +549,7 @@ in
         sslServerCert = "/etc/ssl/private/a";
         sslServerKey = "/etc/ssl/private/c";
         documentRoot = "/var/www/ip.alcproduxion.com";
+        addSSL = true;
         # listen = [
         #   {
         #     ip = "*";
@@ -579,6 +581,7 @@ in
         sslServerCert = "/etc/ssl/private/ipmtc";
         sslServerKey = "/etc/ssl/private/ipmtk";
         documentRoot = "/var/www/ipv4.magictintin.fr";
+        addSSL = true;
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
@@ -598,6 +601,9 @@ in
         # sslServerKey = "/var/lib/acme/cpoi.magictintin.fr/key.pem";
         sslServerCert = "/etc/ssl/private/cpmtc";
         sslServerKey = "/etc/ssl/private/cpmtk";
+
+        addSSL = true;
+
         documentRoot = "/var/www/cpoi.magictintin.fr";
         extraConfig = ''
           RewriteEngine On
@@ -616,6 +622,18 @@ in
         # forceSSL = true;
         # sslServerCert = "/var/lib/acme/magictintin.fr/cert.pem";
         # sslServerKey = "/var/lib/acme/magictintin.fr/key.pem";
+
+        # listen = [
+        #   {
+        #     ip = "127.0.0.2";
+        #     port = 80;
+        #   }
+        #   {
+        #     ip = "127.0.0.2";
+        #     port = 443;
+        #     ssl = true;
+        #   }
+        # ];
 
         sslServerCert = "/etc/ssl/private/mtc";
         sslServerKey = "/etc/ssl/private/mtk";
