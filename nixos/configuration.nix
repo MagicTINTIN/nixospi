@@ -270,11 +270,6 @@ in
     #atomix
     #gnome-contacts
   ]);
-  
-  #services.openssh = {
-  #  enable = true;
-  #  settings.PermitRootLogin = "yes";
-  #};
 
   # Some sample service.
   # Use dnsmasq as internal LAN DNS resolver.
@@ -351,6 +346,7 @@ in
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILhrqQW7G6XbHsO7hRtj2RIntjPChmgkqVQLOfBcnFYD user@georges"
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
       extraGroups = [ "wheel" "networkmanager" "input" "docker" ];
@@ -360,7 +356,8 @@ in
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
   services.openssh = {
-    enable = false;
+    enable = true;
+    # ports = [ 22 ];
     settings = {
       # Opinionated: forbid root login through SSH.
       PermitRootLogin = "no";
@@ -368,6 +365,11 @@ in
       # Remove if you want to SSH using passwords
       PasswordAuthentication = false;
     };
+  };
+  services.fail2ban = {
+    enable = true;
+    maxretry = 5;
+    bantime = "12h";
   };
 
   # To install it for a specific user
@@ -553,15 +555,15 @@ in
         '';
       };
 
-      "c.0xy.fr" = {
-        hostName = "c.0xy.fr";
-        serverAliases = [ "c.0xy.fr" "*.c.0xy.fr" ];
+      "0xy.fr" = {
+        hostName = "0xy.fr";
+        serverAliases = [ "0xy.fr" "www.0xy.fr" ];
         # forceSSL = true;
 
         sslServerCert = "/etc/ssl/private/xyc";
         sslServerKey = "/etc/ssl/private/xyk";
         addSSL = true;
-        documentRoot = "/var/www/cpoi.magictintin.fr";
+        documentRoot = "/var/www/0xy.fr";
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
@@ -573,15 +575,15 @@ in
         '';
       };
 
-      "0xy.fr" = {
-        hostName = "0xy.fr";
-        serverAliases = [ "0xy.fr" "*.0xy.fr" ];
+      "c.0xy.fr" = {
+        hostName = "c.0xy.fr";
+        serverAliases = [ "c.0xy.fr" "*.c.0xy.fr" ];
         # forceSSL = true;
 
         sslServerCert = "/etc/ssl/private/xyc";
         sslServerKey = "/etc/ssl/private/xyk";
         addSSL = true;
-        documentRoot = "/var/www/0xy.fr";
+        documentRoot = "/var/www/cpoi.magictintin.fr";
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
