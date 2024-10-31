@@ -2,10 +2,11 @@
 - [x] set ip addr
 - [x] setup basic apache webserver
 - [x] use cloudflare to solve ipv6 only
+- [x] set up origin CA SSL certificates
 - [ ] only open some ports and add firewall (ufw limit 22/tcp to prevent brute force)
 - [x] change username
 - [ ] default login
-- [ ] ipv6 to ipv4 proxy ?
+- [x] ipv6 to ipv4 proxy ?
 
 - [ ] activate ssh : 
     - [ ] prevent root login

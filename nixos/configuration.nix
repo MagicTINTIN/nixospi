@@ -518,17 +518,6 @@ in
         sslServerKey = "/etc/ssl/private/c";
         documentRoot = "/var/www/ipv6.alcproduxion.com";
         addSSL = true;
-        # listen = [
-        #   {
-        #     ip = "*";
-        #     port = 80;
-        #   }
-        #   # {
-        #   #   ip = "*";
-        #   #   port = 443;
-        #   #   ssl = true;
-        #   # }
-        # ];
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
@@ -550,17 +539,6 @@ in
         sslServerKey = "/etc/ssl/private/c";
         documentRoot = "/var/www/ip.alcproduxion.com";
         addSSL = true;
-        # listen = [
-        #   {
-        #     ip = "*";
-        #     port = 80;
-        #   }
-        #   # {
-        #   #   ip = "*";
-        #   #   port = 443;
-        #   #   ssl = true;
-        #   # }
-        # ];
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
@@ -618,27 +596,53 @@ in
 
       "magictintin.fr" = {
         hostName = "magictintin.fr";
-        serverAliases = [ "magictintin.fr" ];
+        serverAliases = [ "magictintin.fr" "*.magictintin.fr" ];
         # forceSSL = true;
-        # sslServerCert = "/var/lib/acme/magictintin.fr/cert.pem";
-        # sslServerKey = "/var/lib/acme/magictintin.fr/key.pem";
-
-        # listen = [
-        #   {
-        #     ip = "127.0.0.2";
-        #     port = 80;
-        #   }
-        #   {
-        #     ip = "127.0.0.2";
-        #     port = 443;
-        #     ssl = true;
-        #   }
-        # ];
 
         sslServerCert = "/etc/ssl/private/mtc";
         sslServerKey = "/etc/ssl/private/mtk";
         addSSL = true;
         documentRoot = "/var/www/magictintin.fr";
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+          # UseCanonicalName Off
+        '';
+      };
+
+      "c.0xy.fr" = {
+        hostName = "c.0xy.fr";
+        serverAliases = [ "c.0xy.fr" "*.c.0xy.fr" ];
+        # forceSSL = true;
+
+        sslServerCert = "/etc/ssl/private/xyc";
+        sslServerKey = "/etc/ssl/private/xyk";
+        addSSL = true;
+        documentRoot = "/var/www/cpoi.magictintin.fr";
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+          # UseCanonicalName Off
+        '';
+      };
+
+      "0xy.fr" = {
+        hostName = "0xy.fr";
+        serverAliases = [ "0xy.fr" "*.0xy.fr" ];
+        # forceSSL = true;
+
+        sslServerCert = "/etc/ssl/private/xyc";
+        sslServerKey = "/etc/ssl/private/xyk";
+        addSSL = true;
+        documentRoot = "/var/www/0xy.fr";
         extraConfig = ''
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
