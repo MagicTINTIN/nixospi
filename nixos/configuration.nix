@@ -403,10 +403,15 @@ in
     # };
   };
 
+  # fix missing websites on startup
+  systemd.services.httpd.after = [ "network-online.target" ];
+  systemd.services.httpd.wants = [ "network-online.target" ];
+
   services.httpd = {
     enable = true;
     adminAddr = "magictintin@proton.me";
     enablePHP = true; # oof... 
+
     # enableSSL = true; # no longer effect
 
     virtualHosts = {
