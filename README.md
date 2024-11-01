@@ -47,6 +47,12 @@ sudo -u $(cat /etc/nixos/sshusername.conf) home-manager switch --flake .#$(cat /
 mv .notgittemp .git
 ```
 
+## Setup Tunnel VPN (ipv6........)
+```sh
+cloudflared login
+cloudflared tunnel create vpn_tunnel
+```
+
 # Maintenance
 
 ```zsh

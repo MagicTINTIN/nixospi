@@ -185,6 +185,8 @@ in
       enable = true;
       allowPing = true;
       allowedTCPPorts = [ 80 443 ];
+      # for vpn
+      allowedUDPPorts = [ 80 ]; #51820
     };
 
     defaultGateway =  {
@@ -210,6 +212,55 @@ in
     #  address = "192.168.1.1";
     #  interface = "eth0";
     # };
+
+    nat.enable = true;
+    nat.externalInterface = "eth0";
+    nat.internalInterfaces = [ "wg0" ];
+
+    wireguard.enable = true;
+    wireguard.interfaces = {
+      # "wg0" is the network interface name. You can name the interface arbitrarily.
+      wg0 = {
+        # Determines the IP address and subnet of the server's end of the tunnel interface.
+        ips = [ "10.100.0.1/24" ];
+
+        # The port that WireGuard listens to. Must be accessible by the client.
+        listenPort = 80;
+
+        # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
+        # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
+        postSetup = ''
+          ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+        '';
+
+        # This undoes the above command
+        postShutdown = ''
+          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+        '';
+
+        # Path to the private key file.
+        privateKeyFile = "/etc/myprivatekeys/wgvpnkey";
+
+        peers = [
+          # List of allowed peers.
+          { # Feel free to give a meaning full name
+            # Public key of the peer (not a file path).
+            # georges
+            publicKey = "JASNcjnni8R+HaQeewLrF6n/+awJt64Viq/k5Giv6xM=";
+            # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
+            allowedIPs = [ "10.100.0.2/32" ];
+          }
+          { # lOrdi
+            publicKey = "5ZQmf1xjXDaet/M9ApD5DH+p/4f+UHCQngnB+QgKH2o=";
+            allowedIPs = [ "10.100.0.3/32" ];
+          }
+          # { # John Doe
+          #   publicKey = "{john doe's public key}";
+          #   allowedIPs = [ "10.100.0.3/32" ];
+          # }
+        ];
+      };
+    };
   };
 
   # forwarding
@@ -363,6 +414,7 @@ in
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILhrqQW7G6XbHsO7hRtj2RIntjPChmgkqVQLOfBcnFYD user@georges"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB/VmQQdC19vkxZOU0iL7/7lY04dl7YQV8P0RCCxB5MG user@lordi2"
       ];
       # this user doesn't belong to sudoers (wheel), but only to a www group
       extraGroups = [ "www"  ];
@@ -373,6 +425,24 @@ in
     chown root:www /var/www
     chmod 775 /var/www
   '';
+
+  # services.cloudflared = {
+  #   enable = true;
+  #   after = [ "network-online.target" ];
+  #   tunnels = {
+  #     "9bd4c134-27b8-4eca-850f-94f8319f1019" = {
+  #       credentialsFile = "/etc/myprivatekeys/cloudflared/9bd4c134-27b8-4eca-850f-94f8319f1019.json";#"${config.sops.secrets.cloudflared-creds.path}";
+  #       ingress = {
+  #         "vpn.magictintin.fr" = {
+  #           service = "udp://localhost:51820";
+  #           # path = "/*.(jpg|png|css|js)";
+  #         };
+  #         # "*.domain2.com" = "http://localhost:80";
+  #       };
+  #       default = "http_status:404";
+  #     };
+  #   };
+  # };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -440,6 +510,7 @@ in
   #   [ inputs.home-manager.packages.${pkgs.system}.default ];
   environment.systemPackages = with pkgs; [
     inputs.home-manager.packages.${pkgs.system}.default
+    cloudflared
   ];
 
   security.acme = {
@@ -607,6 +678,26 @@ in
           <Location />
             Require ip 192.168.0.0/16
           </Location>
+        '';
+      };
+
+      "vpn.magictintin.fr" = {
+        hostName = "vpn.magictintin.fr";
+        serverAliases = [ "vpn.magictintin.fr" ];
+        # forceSSL = true;
+
+        # sslServerCert = "/etc/ssl/private/mtc";
+        # sslServerKey = "/etc/ssl/private/mtk";
+        # addSSL = true;
+        documentRoot = "/var/www/vpn";
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          # FallbackResource /index.php
+          # UseCanonicalName Off
         '';
       };
 
