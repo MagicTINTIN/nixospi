@@ -558,9 +558,34 @@ in
           RewriteCond %{REQUEST_FILENAME} !-f
           RewriteCond %{REQUEST_FILENAME} !-d
           # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          # RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
           # FallbackResource /index.php
           # UseCanonicalName Off
+        '';
+      };
+
+      "db.magictintin.fr" = {
+        hostName = "db.magictintin.fr";
+        serverAliases = [ "db.magictintin.fr" ];
+        # forceSSL = true;
+
+        sslServerCert = "/etc/ssl/private/mtc";
+        sslServerKey = "/etc/ssl/private/mtk";
+        addSSL = true;
+        documentRoot = "/var/www/phpMyAdmin";
+        extraConfig = ''
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
+          FallbackResource /index.php
+          # UseCanonicalName Off
+
+          <Location />
+            Require ip 192.168.0.0/16
+          </Location>
         '';
       };
 

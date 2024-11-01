@@ -354,7 +354,7 @@ assign [class="vlc"] $wsMusic
 #assign [class="Terminator"] $ws9
 assign [class="Code"] output eDP-1
 
-set $webB1 "brave"
+set $webB1 "firefox"
 set $webB2 "firefox"
 set $webB3 "floorp"
 set $ardour "ardour8"
@@ -371,10 +371,10 @@ bindsym $mod+$alt+b exec $webB3
 
 mode "quick setup: [n]ormal, [c]ode, [b]lender, [a]rdour" {
   
-        bindsym n exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec brave; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord'", mode "default"
-        bindsym c exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec brave; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord; focus output eDP-1; workspace 10; exec code; focus output DP-1-0; workspace 9; exec terminator --working-directory=~/Documents/Code;'", mode "default"
-        bindsym b exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec brave; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord; focus output eDP-1; workspace 1; exec blender'", mode "default"
-        bindsym a exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec brave; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord; focus output eDP-1; workspace 1; exec ardour8'", mode "default"
+        bindsym n exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec firefox; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord'", mode "default"
+        bindsym c exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec firefox; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord; focus output eDP-1; workspace 10; exec code; focus output DP-1-0; workspace 9; exec terminator --working-directory=~/Documents/Code;'", mode "default"
+        bindsym b exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec firefox; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord; focus output eDP-1; workspace 1; exec blender'", mode "default"
+        bindsym a exec --no-startup-id "i3-msg 'focus output DP-1-0; workspace 2; exec firefox; focus output HDMI-1-0; workspace Music; exec freetube; workspace Chat; exec discord; focus output eDP-1; workspace 1; exec ardour8'", mode "default"
         bindsym Escape mode "default"
         bindsym Return mode "default"
 
