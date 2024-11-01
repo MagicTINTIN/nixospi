@@ -14,6 +14,12 @@ nixu-home() {
     cd $originalPath
 }
 
+nixu-sshome() {
+    originalPath=`pwd`
+    cd /etc/nixos
+    home-manager switch --flake .#$(cat /etc/nixos/sshusername.conf)@$(cat /etc/nixos/hostname.conf) --impure
+    cd $originalPath
+}
 
 nixu-conf() {
     originalPath=`pwd`

@@ -67,6 +67,11 @@
         # echo $(cat ${uLocalFile} 2>/dev/null || echo nixamer) > $out
         cat ${uLocalFile} > $out
       '';
+      sLocalFile = builtins.path { path = "/etc/nixos/sshusername.conf"; };
+      sshusernameFileContent = pkgs.runCommand "read-file" { inherit sLocalFile; } ''
+        # echo $(cat ${sLocalFile} 2>/dev/null || echo nixamer) > $out
+        cat ${sLocalFile} > $out
+      '';
       debug = "Ok.";
 
       # hostname = builtins.readFile hostnameFileContent;
@@ -75,6 +80,9 @@
 
       usernameNotTrimmed = builtins.readFile usernameFileContent;
       username = builtins.replaceStrings ["\n"] [""] usernameNotTrimmed;
+
+      sshusernameNotTrimmed = builtins.readFile sshusernameFileContent;
+      sshusername = builtins.replaceStrings ["\n"] [""] sshusernameNotTrimmed;
 
       extraArgs = { hidpi }: {
         inherit hidpi;
@@ -106,7 +114,7 @@
       nixosConfigurations = {
         # FIXME replace with your hostname
         "${hostname}" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs hostname username debug extraArgs addons; };
+          specialArgs = { inherit inputs outputs hostname username sshusername debug extraArgs addons; };
           modules = [
             # > Our main nixos configuration file <
             ./nixos/configuration.nix
@@ -122,10 +130,19 @@
         "${username}@${hostname}" = home-manager.lib.homeManagerConfiguration {
           # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs hostname username debug extraArgs addons; };
+          extraSpecialArgs = { inherit inputs outputs hostname username sshusername debug extraArgs addons; };
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/home.nix
+          ];
+        };
+        "${sshusername}@${hostname}" = home-manager.lib.homeManagerConfiguration {
+          # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs hostname username sshusername debug extraArgs addons; };
+          modules = [
+            # > Our main home-manager configuration file <
+            ./home-manager/sshome.nix
           ];
         };
       };

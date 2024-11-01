@@ -4,6 +4,7 @@
 , outputs
 , hostname
 , username
+, sshusername
 , debug
 , lib
 , config
@@ -335,6 +336,8 @@ in
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
 
+  users.groups.www = {};
+
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     # FIXME: Replace with your username
@@ -349,9 +352,27 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILhrqQW7G6XbHsO7hRtj2RIntjPChmgkqVQLOfBcnFYD user@georges"
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = [ "wheel" "networkmanager" "input" "docker" ];
+      extraGroups = [ "wheel" "networkmanager" "input" "docker" "www" ];
+    };
+    "${sshusername}" = {
+      # TODO: You can set an initial password for your user.
+      # Be sure to change it (using passwd) after rebooting!
+      initialPassword = "sdf";
+      description = "user that is able to modify www";
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = [
+        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILhrqQW7G6XbHsO7hRtj2RIntjPChmgkqVQLOfBcnFYD user@georges"
+      ];
+      # this user doesn't belong to sudoers (wheel), but only to a www group
+      extraGroups = [ "www"  ];
     };
   };
+
+  system.activationScripts.wwwPermissions = ''
+    chown root:www /var/www
+    chmod 775 /var/www
+  '';
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.

@@ -29,17 +29,17 @@ in
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
 
-    ./computerCase.nix
-    ./autorandrconf.nix
-    ./autorandr.nix
+    # ./computerCase.nix
+    # ./autorandrconf.nix
+    # ./autorandr.nix
 
-    ./apps/i3.nix
-    ./apps/gnome.nix
+    # ./apps/i3.nix
+    # ./apps/gnome.nix
     ./apps/git.nix
-    ./apps/terminator.nix
-    ./apps/rofi.nix
-    ./apps/pasystray.nix
-    ./apps/firefox.nix
+    # ./apps/terminator.nix
+    # ./apps/rofi.nix
+    # ./apps/pasystray.nix
+    # ./apps/firefox.nix
   ];
 
   nixpkgs = {
@@ -74,8 +74,8 @@ in
     syntaxHighlighting.enable = true;
     initExtra = ''
       source /etc/nixos/home-manager/apps/home/ohmyzsh/magictintheme.zsh-theme;
-      source /etc/nixos/home-manager/apps/home/.nixaliases;
       source /etc/nixos/home-manager/apps/home/.aliases;
+      source /etc/nixos/home-manager/apps/home/.nixaliases;
     '';
     oh-my-zsh = {
       enable = true;
@@ -83,22 +83,22 @@ in
       # theme = "magictintheme";
     };
     sessionVariables = {
-      NIX_DEBUG_HM = "home.nix:\n${debug}";
+      NIX_DEBUG_HM = "sshome.nix:\n${debug}";
     };
     shellAliases = {
-      nixhm-debug-print = "echo -e \"flake.nix:\n${debug}\nhome.nix:\n${moredebug}\"";
+      nixhm-debug-print = "echo -e \"flake.nix:\n${debug}\nsshome.nix:\n${moredebug}\"";
     };
   };
 
   # TODO: Set your username
   home = {
-    username = "${username}";
-    homeDirectory = "/home/${username}";
+    username = "${sshusername}";
+    homeDirectory = "/home/${sshusername}";
   };
 
   # Add stuff for your user as you see fit:
   programs.neovim.enable = true;
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
   # home.packages = with pkgs; [ steam ];
   home.packages = with pkgs; [
     # utils
@@ -130,43 +130,9 @@ in
     libgcc
     direnv
     nixpkgs-fmt
-    terminator
-    gedit
     croc
     keepassxc
 
-    # gnome
-
-    gnome-tweaks
-    gnomeExtensions.topiconsfix
-    # gnomeExtensions.tophat
-    gnomeExtensions.freon
-    gnomeExtensions.astra-monitor
-    clutter
-    clutter-gtk
-    libgtop
-    yaru-theme
-
-    # i3wm
-
-    i3
-    i3lock
-    i3blocks
-    dmenu
-    maim
-    xclip
-    xdotool
-    feh
-    picom
-    nemo
-    polkit
-    mate.mate-polkit
-    brightnessctl
-    pamixer
-    volumeicon
-    pulsemixer
-    pasystray
-    # rofi
     rofi-calc
     lm_sensors
     acpi
@@ -175,21 +141,8 @@ in
     networkmanagerapplet
     wirelesstools
 
-    # home-manager
-    # text/code editors
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    # nvim #already installed
+    vim
     vscode
-    # web browser
-    # firefox #already installed
-    # chat
-    # discord
-    # element-desktop
-    # games
-    # steam moved to configuration.nix bc home-manager sucks...
-    # 2D/3D
-    vlc
-    obs-studio
   ];
 
   # Enable home-manager and git
@@ -211,49 +164,7 @@ in
       fi
     fi
   '';
-  # Updating GNOME applications list after update
-  # programs.bash.profileExtra = lib.mkAfter ''
-  #   rm -rf ${config.home.homeDirectory}/.local/share/applications/home-manager
-  #   rm -rf ${config.home.homeDirectory}/.icons/nix-icons
-  #   ls ${config.home.homeDirectory}/.nix-profile/share/applications/*.desktop > ${config.home.homeDirectory}/.cache/current_desktop_files.txt
-  # '';
-  # home.activation = {
-  #   linkDesktopApplications = {
-  #     after = [ "writeBoundary" "createXdgUserDirectories" ];
-  #     before = [ ];
-  #     data = ''
-  #       rm -rf ${config.home.homeDirectory}/.local/share/applications/home-manager
-  #       rm -rf ${config.home.homeDirectory}/.icons/nix-icons
-  #       mkdir -p ${config.home.homeDirectory}/.local/share/applications/home-manager
-  #       mkdir -p ${config.home.homeDirectory}/.icons
-  #       ln -sf ${config.home.homeDirectory}/.nix-profile/share/icons ${config.home.homeDirectory}/.icons/nix-icons
-
-  #       # Check if the cached desktop files list exists
-  #       if [ -f ${config.home.homeDirectory}/.cache/current_desktop_files.txt ]; then
-  #         current_files=$(cat ${config.home.homeDirectory}/.cache/current_desktop_files.txt)
-  #       else
-  #         current_files=""
-  #       fi
-
-  #       # Symlink new desktop entries
-  #       for desktop_file in ${config.home.homeDirectory}/.nix-profile/share/applications/*.desktop; do
-  #         if ! echo "$current_files" | grep -q "$(basename $desktop_file)"; then
-  #           ln -sf "$desktop_file" ${config.home.homeDirectory}/.local/share/applications/home-manager/$(basename $desktop_file)
-  #         fi
-  #       done
-
-  #       # Update desktop database
-  #       ${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.home.homeDirectory}/.local/share/applications
-  #     '';
-  #   };
-  # };
-
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Yaru-dark";
-    };
-  };
+  
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
 }
