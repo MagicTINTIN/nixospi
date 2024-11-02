@@ -664,6 +664,9 @@ in
         addSSL = true;
         documentRoot = "/var/www/0xy.fr";
         extraConfig = ''
+        <Directory "/var/www/0xy.fr">
+          AllowOverride All
+        </Directory>
         '';
       };
 
@@ -686,19 +689,9 @@ in
         # forceSSL = true;
         documentRoot = "/var/www/default";
         extraConfig = ''
-RewriteEngine On
-
-# Check if the request is for a directory, and if so, serve index.php within the directory
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^(.*[^/])$ $1/ [R=301,L]
-RewriteRule ^(.*/)$ $1index.php [L]
-
-# Check if the requested file exists, and if so, serve it directly
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule . - [L]
-
-# If the requested file doesn't exist, rewrite to .php version
-RewriteRule ^(.+)$ $1.php [L]
+        <Directory "/var/www/default">
+          AllowOverride All
+        </Directory>
         '';
       };
   };

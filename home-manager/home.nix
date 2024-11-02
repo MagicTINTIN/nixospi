@@ -181,6 +181,7 @@ in
     # nvim #already installed
     vscode
     # web browser
+    chromium
     # firefox #already installed
     # chat
     # discord
