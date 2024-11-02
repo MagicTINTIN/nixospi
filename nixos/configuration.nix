@@ -581,13 +581,6 @@ in
         documentRoot = "/var/www/ipv6.alcproduxion.com";
         addSSL = true;
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
         '';
       };
 
@@ -602,13 +595,6 @@ in
         documentRoot = "/var/www/ip.alcproduxion.com";
         addSSL = true;
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
         '';
       };
 
@@ -623,13 +609,6 @@ in
         documentRoot = "/var/www/ipv4.magictintin.fr";
         addSSL = true;
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
         '';
       };
 
@@ -646,38 +625,6 @@ in
 
         documentRoot = "/var/www/cpoi.magictintin.fr";
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          # RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
-        '';
-      };
-
-      "db.magictintin.fr" = {
-        hostName = "db.magictintin.fr";
-        serverAliases = [ "db.magictintin.fr" ];
-        # forceSSL = true;
-
-        sslServerCert = "/etc/ssl/private/mtc";
-        sslServerKey = "/etc/ssl/private/mtk";
-        addSSL = true;
-        documentRoot = "/var/www/phpMyAdmin";
-        extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          FallbackResource /index.php
-          # UseCanonicalName Off
-
-          <Location />
-            Require ip 192.168.0.0/16
-          </Location>
         '';
       };
 
@@ -691,13 +638,6 @@ in
         # addSSL = true;
         documentRoot = "/var/www/vpn";
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
         '';
       };
 
@@ -711,13 +651,6 @@ in
         addSSL = true;
         documentRoot = "/var/www/magictintin.fr";
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
         '';
       };
 
@@ -731,13 +664,6 @@ in
         addSSL = true;
         documentRoot = "/var/www/0xy.fr";
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
         '';
       };
 
@@ -751,29 +677,28 @@ in
         addSSL = true;
         documentRoot = "/var/www/cpoi.magictintin.fr";
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
         '';
       };
 
       "localhost" = {
         hostName = "localhost";
-        serverAliases = [ "localhost" ];
+        serverAliases = [ "localhost" "192.168.22.56" "10.100.0.1" ];
         # forceSSL = true;
         documentRoot = "/var/www/default";
         extraConfig = ''
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          # RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
-          RewriteRule ^(([A-Za-z0-9\-]+/)*[A-Za-z0-9\-]+)$ $1.php [L]
-          # FallbackResource /index.php
-          # UseCanonicalName Off
+RewriteEngine On
+
+# Check if the request is for a directory, and if so, serve index.php within the directory
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.*[^/])$ $1/ [R=301,L]
+RewriteRule ^(.*/)$ $1index.php [L]
+
+# Check if the requested file exists, and if so, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule . - [L]
+
+# If the requested file doesn't exist, rewrite to .php version
+RewriteRule ^(.+)$ $1.php [L]
         '';
       };
   };
