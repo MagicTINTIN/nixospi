@@ -53,6 +53,15 @@ cloudflared login
 cloudflared tunnel create vpn_tunnel
 ```
 
+Setup MariaDB
+``` 
+sudo mysql_secure_install
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'lepasswd';
+
+CREATE USER 'admin'@'192.168.22.96' IDENTIFIED VIA mysql_native_password USING '***';GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, FILE, ALTER ON *.* TO 'admin'@'192.168.22.96' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0; 
+```
+
 # Maintenance
 
 ```zsh

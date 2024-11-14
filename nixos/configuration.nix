@@ -452,6 +452,7 @@ in
     settings = {
       # Opinionated: forbid root login through SSH.
       PermitRootLogin = "no";
+      X11Forwarding = true;
       # Opinionated: use keys only.
       # Remove if you want to SSH using passwords
       PasswordAuthentication = false;
@@ -685,7 +686,7 @@ in
 
       "localhost" = {
         hostName = "localhost";
-        serverAliases = [ "localhost" "192.168.22.56" "10.100.0.1" ];
+        serverAliases = [ "localhost" "192.168.22.36" "192.168.22.56" "10.100.0.1" ];
         # forceSSL = true;
         documentRoot = "/var/www/default";
         extraConfig = ''
